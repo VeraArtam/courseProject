@@ -1,9 +1,17 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.11.2'
 }
 
 group = 'ru.netology'
 version = '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = 11
+}
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
 
 repositories {
     mavenCentral()
@@ -13,8 +21,26 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    testImplementation 'com.codeborne:selenide:6.19.1'
+
+    testImplementation 'io.qameta.allure:allure-selenide:2.13.3'
+
+    testImplementation 'mysql:mysql-connector-java:8.0.33'
 }
 
 test {
-    useJUnitPlatform()
+    test {
+        useJUnitPlatform()
+
+        systemProperty 'selenide.savePageSource', 'true'
+
+        systemProperty 'selenide.headless', System.getProperty('selenide.headless', 'false')
+
+        systemProperty 'selenide.timeout', '15000'
+
+        systemProperty 'allure.results.directory', 'build/allure-results'
+
+        systemProperty 'chromeoptions.prefs', System.getProperty('chromeoptions.prefs', "profile.password_manager_leak_detection=false")
+    }
 }
