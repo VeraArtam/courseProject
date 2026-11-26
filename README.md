@@ -4,11 +4,9 @@
 
 Документация проекта доступна в папке docs/:
 
-Plan.md *План автоматизации*
-
-Report.md *Отчёт о тестировании*
-
-Summary.md *Итоги автоматизации*
+- [План автоматизации](src/docs/Plan.md)
+- [Отчёт о тестировании](src/docs/Report.md)
+- [Итоги автоматизации](src/docs/Summary.md)
 
 ## Начало работы
 
@@ -32,7 +30,7 @@ Git (для клонирования репозитория)
 
 bash
 
-git clone https://github.com/VeraArtam/courseProject
+git clone https://github.com/VeraArtam/courseProject.git
 
 cd courseProject
 
@@ -54,7 +52,7 @@ docker ps
 
 **Шаг 3. Настройка подключения к БД**
 
-В файле application.properties (рядом с aqa-shop.jar или в папке resources) заполните:
+В файле application.properties (рядом с aqa-shop.jar) заполните:
 
 properties
 
@@ -94,7 +92,9 @@ bash
 
 bash
 
-./gradlew test allureReport
+./gradlew test
+
+./gradlew allureReport
 
 После выполнения тестов отчёт Allure можно открыть командой:
 
@@ -112,6 +112,6 @@ docker stop mysql-aqa
 
 docker rm mysql-aqa
 
-### Лицензия
+## Лицензия
 
-Проект выполнен в учебных целях в рамках курса «Инженер по тестированию». Условия лицензии не предусмотрены.
+Проект выполнен в учебных целях в рамках курса «Инженер по тестированию». Коммерческое использование не предусмотрено.

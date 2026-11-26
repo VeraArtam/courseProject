@@ -29,7 +29,6 @@ dependencies {
     testImplementation 'mysql:mysql-connector-java:8.0.33'
 }
 
-test {
     test {
         useJUnitPlatform()
 
@@ -43,4 +42,3 @@ test {
 
         systemProperty 'chromeoptions.prefs', System.getProperty('chromeoptions.prefs', "profile.password_manager_leak_detection=false")
     }
-}
