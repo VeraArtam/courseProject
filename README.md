@@ -4,9 +4,9 @@
 
 Документация проекта доступна в папке docs/:
 
-- [План автоматизации](src/docs/Plan.md)
-- [Отчёт о тестировании](src/docs/Report.md)
-- [Итоги автоматизации](src/docs/Summary.md)
+- [План автоматизации](docs/Plan.md)
+- [Отчёт о тестировании](docs/Report.md)
+- [Итоги автоматизации](docs/Summary.md)
 
 ## Начало работы
 
@@ -70,7 +70,8 @@ spring.datasource.password=root
 
 bash
 
-java -jar ./artifacts/aqa-shop.jar
+cd artifacts
+java -jar aqa-shop.jar
 
 Дождитесь сообщения Started ShopApplication in ... seconds. Приложение будет доступно по адресу:
 

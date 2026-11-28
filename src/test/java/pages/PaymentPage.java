@@ -1,12 +1,16 @@
 package pages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import java.time.Duration;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.open;
 
 public class PaymentPage {
+
+    private static final Duration TIMEOUT = Duration.ofSeconds(15);
 
     private final SelenideElement buyButton = $x("//button[.//span[text()='Купить']]");
     private final SelenideElement cardNumberInput = $("input[placeholder='0000 0000 0000 0000']");
@@ -14,18 +18,18 @@ public class PaymentPage {
     private final SelenideElement yearInput = $("input[placeholder='22']");
     private final SelenideElement ownerInput = $x("//span[text()='Владелец']/ancestor::span[contains(@class,'input')]//input");
     private final SelenideElement cvcInput = $("input[placeholder='999']");
-    private final SelenideElement continueButton = $x("//button[contains(@class,'button_view_extra')][contains(., 'Продолжить')]");
+    private final SelenideElement continueButton = $x("//button[contains(., 'Продолжить')]");
+
     private final SelenideElement successNotification = $(".notification_status_ok");
     private final SelenideElement errorNotification = $(".notification_status_error");
+    private final SelenideElement anyNotification = $(".notification");
 
-    public PaymentPage openPage() {
+    public PaymentPage() {
         open("http://localhost:8080");
-        return this;
     }
 
-    public PaymentPage clickBuy() {
-        buyButton.shouldBe(Condition.visible).click();
-        return this;
+    public void clickBuy() {
+        buyButton.shouldBe(visible, Duration.ofSeconds(10)).click();
     }
 
     public void fillCardNumber(String value) {
@@ -49,7 +53,7 @@ public class PaymentPage {
     }
 
     public void clickContinue() {
-        continueButton.shouldBe(Condition.visible).click();
+        continueButton.shouldBe(visible, Duration.ofSeconds(10)).click();
     }
 
     public void payWithCard(String number, String month, String year, String owner, String cvc) {
@@ -62,7 +66,23 @@ public class PaymentPage {
         clickContinue();
     }
 
-    public SelenideElement getSuccessNotification() {
-        return successNotification;
+    public void waitForAnyNotification() {
+        anyNotification.shouldBe(visible, TIMEOUT);
+    }
+
+    public void shouldHaveSuccessNotification(String expectedText) {
+        successNotification.shouldBe(visible, TIMEOUT)
+                .shouldHave(text(expectedText));
+    }
+
+    public void shouldHaveErrorNotification(String expectedText) {
+        errorNotification.shouldBe(visible, TIMEOUT)
+                .shouldHave(text(expectedText));
+    }
+
+    public void shouldHaveFieldError(String labelText, String expectedText) {
+        $x("//span[text()='" + labelText + "']/ancestor::div[contains(@class,'form-field')]//*[contains(@class,'input__sub')]")
+                .shouldBe(visible, Duration.ofSeconds(5))
+                .shouldHave(text(expectedText));
     }
 }
